@@ -24,6 +24,15 @@ class Edge(object):
         return self.dest
     def __str__(self):
         return self.src.getName() + '->' + self.dest.getName()
+
+class WeightedEdge(Edge):
+    def __init__(self, src, dest, weight):
+        Edge.__init__(self, src, dest)
+        self.weight = weight
+    def getWeight(self):
+        return self.weight
+    def __str__(self):
+        return Edge.__str__(self) + f' ({self.getWeight()})'
                
 class Digraph(object):
     """edges is a dict mapping each node to a list of
@@ -93,3 +102,5 @@ for node in nodes:
         if not edge.getDestination() in g.childrenOf(edge.getSource()):
             #add edge
             g.addEdge(edge)
+
+
