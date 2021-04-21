@@ -263,7 +263,7 @@ class StandardRobot(Robot):
 
 
 # Uncomment this line to see your implementation of StandardRobot in action!
-testRobotMovement(StandardRobot, RectangularRoom)
+# testRobotMovement(StandardRobot, RectangularRoom)
 
 
 # === Problem 4
@@ -285,10 +285,32 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
     robot_type: class of robot to be instantiated (e.g. StandardRobot or
                 RandomWalkRobot)
     """
-    raise NotImplementedError
+    results = []
+    
+    for trial in range(num_trials):
+        # anim = ps2_visualize.RobotVisualization(num_robots, width, height)
+        robots = {}
+        room = RectangularRoom(width, height)
+        for i in range(num_robots):
+            robots[i] = robot_type(room, speed)
+        time_steps = 0
+        while room.getNumCleanedTiles() / room.getNumTiles() < min_coverage:
+            # anim.update(room, [robot for robot in robots.values()])
+            for robot in robots.values():
+                robot.updatePositionAndClean()
+            time_steps += 1
+        results.append(time_steps)
+        # anim.done()
+    
+    return sum(results)/len(results)
 
 # Uncomment this line to see how much your simulation takes on average
-##print(runSimulation(1, 1.0, 10, 10, 0.75, 30, StandardRobot))
+# width = 20
+# height = 20
+# num_robots = 20
+# min_coverage = 1
+# speed = 1
+# print(runSimulation(num_robots, speed, width, height, min_coverage, 1, StandardRobot))
 
 
 # === Problem 5
