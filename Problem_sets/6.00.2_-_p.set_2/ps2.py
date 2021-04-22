@@ -305,12 +305,12 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
     return sum(results)/len(results)
 
 # Uncomment this line to see how much your simulation takes on average
-# width = 20
-# height = 20
-# num_robots = 20
-# min_coverage = 1
-# speed = 1
-# print(runSimulation(num_robots, speed, width, height, min_coverage, 1, StandardRobot))
+width = 10
+height = 10
+num_robots = 1
+min_coverage = 1
+speed = 1
+# print(runSimulation(num_robots, speed, width, height, min_coverage, 1, RandomWalkRobot))
 
 
 # === Problem 5
@@ -326,7 +326,19 @@ class RandomWalkRobot(Robot):
         Move the robot to a new position and mark the tile it is on as having
         been cleaned.
         """
-        raise NotImplementedError
+        current_pos = self.getRobotPosition()
+        new_pos = current_pos.getNewPosition(self.getRobotDirection(), self.get_speed())
+        if self.get_room().isPositionInRoom(new_pos):
+            self.setRobotPosition(new_pos)
+            self.get_room().cleanTileAtPosition(self.getRobotPosition())
+            self.setRobotDirection(random.randrange(0,360))
+        else:
+            self.setRobotDirection(random.randrange(0,360))
+
+
+robot_types = [StandardRobot, RandomWalkRobot]
+# for robot_type in robot_types:
+#     print(runSimulation(num_robots, speed, width, height, min_coverage, 30, robot_type))
 
 
 def showPlot1(title, x_label, y_label):
@@ -379,12 +391,12 @@ def showPlot2(title, x_label, y_label):
 # 1) Write a function call to showPlot1 that generates an appropriately-labeled
 #     plot.
 #
-#       (... your call here ...)
+# showPlot1('time to clean', 'number of robots', 'time steps')
 #
 
 #
 # 2) Write a function call to showPlot2 that generates an appropriately-labeled
 #     plot.
 #
-#       (... your call here ...)
+showPlot2('room shape', 'aspect ratio', 'time steps')
 #
